@@ -14,7 +14,7 @@ namespace RickyMorty.Core
                 if (value.GetType() == typeof(Location))
                 {
                     Location loc = (Location)value;
-                    return $"We are in the {loc.Dimension}!";
+                    return $"Behold {loc.Name}! You are a {loc.Type} in the {loc.Dimension}!";
                 }
             }
             return string.Empty;

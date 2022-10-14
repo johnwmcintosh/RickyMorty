@@ -31,8 +31,6 @@ namespace RickyMorty.ViewModels
 
             string Ids = string.Empty;
 
-            Characters = new ObservableCollection<Character>();
-
             Location = location;
 
             foreach (Uri resident in location.Residents)
