@@ -1,8 +1,6 @@
-﻿using RickyMorty.Core;
-using RickyMorty.Models;
+﻿using RickyMorty.Models;
 using RickyMorty.Services;
 using RickyMorty.Views;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
