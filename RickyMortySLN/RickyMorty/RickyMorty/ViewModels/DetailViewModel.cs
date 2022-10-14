@@ -45,10 +45,7 @@ namespace RickyMorty.ViewModels
             if (Ids != string.Empty)
             {
                 NobodyLivesHere = false;
-                foreach (var character in await ApiService.GetCharacterGroup(Ids))
-                {
-                    Characters.Add(character);
-                }
+                Characters = new ObservableCollection<Character>(await ApiService.GetCharacterGroup(Ids));
             }
             else
                 NobodyLivesHere = true;

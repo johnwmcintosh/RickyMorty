@@ -42,13 +42,8 @@ namespace RickyMorty.ViewModels
 
             NavToDetailCommand = new Command<Location>(async (l) => await SeeDetail(l));
 
-            Locations = new ObservableCollection<Location>();
-
-            foreach (var loc in await ApiService.GetAllLocationsAsync())
-            {
-                Locations.Add(loc);
-                allLocations.Add(loc);
-            }
+            allLocations = await ApiService.GetAllLocationsAsync();
+            Locations = new ObservableCollection<Location>(allLocations);
             
             IsBusy = false;
         }
@@ -57,16 +52,9 @@ namespace RickyMorty.ViewModels
         {
             Locations.Clear();
             if (text == string.Empty)
-            {
-                foreach (var loc in allLocations)
-                    Locations.Add(loc);
-            }
+                Locations = new ObservableCollection<Location>(allLocations);
             else
-            {
-                var filtered = allLocations.Where(t => t.Name.ToLower().Contains(text.ToLower()));
-                foreach (var filted in filtered)
-                    Locations.Add(filted);
-            }
+                Locations = new ObservableCollection<Location>(allLocations.Where(t => t.Name.ToLower().Contains(text.ToLower())));
         }
 
         private void SortAsc()
