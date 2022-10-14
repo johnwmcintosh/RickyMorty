@@ -10,7 +10,7 @@ namespace RickyMorty.Services
 
     public static class ApiService
     {
-        private const string baseApi = "https://rickandmortyapi.com/api/";
+        public const string baseApi = "https://rickandmortyapi.com/api/";
 
         private static List<Location> Locations { get; set; } = new List<Location>();
         private static List<Character> Characters { get; set; } = new List<Character>();
@@ -34,12 +34,31 @@ namespace RickyMorty.Services
             return data;
         }
 
+        private static async Task<T> BasicGetNoPageNoWrapper<T>(string endpoint) where T : class
+        {
+            string api = $"{baseApi}{endpoint}";
+
+            var json = await (await HttpService.RequestAsync(api, HttpService.RequestType.Get)).Content.ReadAsStringAsync();
+
+            T data = JsonConvert.DeserializeObject<T>(json);
+
+            return data;
+        }
+
         public static async Task<List<Location>> GetAllLocationsAsync(int page = 1)
         {
             var locations = await BasicGet<List<Location>>("location", page);
-            Locations.AddRange(locations);
-
+            var orderedLocations = locations.OrderBy(t => t.Name);
+            Locations.AddRange(orderedLocations);
             return locations;
+        }
+
+        public static async Task<List<Character>> GetCharacterGroup(string Ids)
+        {
+            string endpoint = $"character/{Ids}";
+            var data = await BasicGetNoPageNoWrapper<List<Character>>(endpoint);
+
+            return data;
         }
 
         public static async Task<Character> GetCharacterByUriAsync(Uri Uri)

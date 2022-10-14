@@ -11,11 +11,17 @@ namespace RickyMorty.Views
         public MainPage()
         {
             InitializeComponent();
-            var vm = new MainViewModel();
+            var vm = new MainViewModel(Navigation);
 
             BindingContext = vm;
 
-            var t = Task.Run(async () => await vm.Init());
+            _ = Task.Run(async () => await vm.Init());
+        }
+
+        private void NativeEntry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var vm = (MainViewModel)BindingContext;
+            vm.Filter(e.NewTextValue);
         }
     }
 }

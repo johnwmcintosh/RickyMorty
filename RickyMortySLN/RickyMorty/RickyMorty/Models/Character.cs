@@ -66,5 +66,10 @@ namespace RickyMorty.Models
         /// Gets time at which the character was created in the database.
         /// </summary>
         public DateTime? Created { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Name}, a {Gender} {Species}";
+        }
     }
 }

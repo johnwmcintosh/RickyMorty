@@ -1,14 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:core="clr-namespace:RickyMorty.Core" 
              x:Class="RickyMorty.Views.MainPage">
+    <ContentPage.Resources>
+        <core:NegationConverter x:Key="negateBool"/>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid Margin="20,50,0,0">
-            <Label IsVisible="{Binding IsBusy}" Text="{Binding LoadingText}" Margin="200,50,0,0"/>
-            <CollectionView ItemsSource="{Binding Locations}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <Label Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand"  HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsBusy}" Text="{Binding LoadingText}" Margin="200,50,0,0"/>
+            
+            <core:NativeEntry Grid.Row="0" Grid.ColumnSpan="2" Margin="15,20,15,20" HeightRequest="50" IsVisible="{Binding IsBusy, Converter={StaticResource negateBool}}" Placeholder="Enter some text" TextChanged="NativeEntry_TextChanged">
+                <core:NativeEntry.Effects>
+                    <core:NativeFocusEffect/>
+                </core:NativeEntry.Effects>
+                <core:NativeEntry.Behaviors>
+                    <core:EntryBehavior/>
+                </core:NativeEntry.Behaviors>
+            </core:NativeEntry>
+
+            <Button Text="Sort Asc" Grid.Row="1" Grid.Column="0" Margin="15,0,0,50">
+                <Button.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BindingContext.SortAscCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"/>
+                </Button.GestureRecognizers>
+            </Button>
+            <Button Text="Sort Desc" Grid.Row="1" Grid.Column="1" Margin="15,0,15,50">
+                <Button.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BindingContext.SortDescCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"/>
+                </Button.GestureRecognizers>
+            </Button>
+
+            <CollectionView Grid.Row="2" Grid.ColumnSpan="2" Margin="15,0,0,0" VerticalOptions="FillAndExpand" ItemsSource="{Binding Locations}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Label Text="{Binding Name}"/>
+                        <Label Text="{Binding Name}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding BindingContext.NavToDetailCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}" CommandParameter="{Binding}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
