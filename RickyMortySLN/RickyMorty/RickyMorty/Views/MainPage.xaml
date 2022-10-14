@@ -18,7 +18,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             
-            <Label Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand"  HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsBusy}" Text="{Binding LoadingText}" Margin="200,50,0,0"/>
+            <Label Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand"  HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsBusy}" Text="{Binding LoadingText}"/>
             
             <core:NativeEntry Grid.Row="0" Grid.ColumnSpan="2" Margin="15,20,15,20" HeightRequest="50" IsVisible="{Binding IsBusy, Converter={StaticResource negateBool}}" Placeholder="Enter some text" TextChanged="NativeEntry_TextChanged">
                 <core:NativeEntry.Effects>
@@ -29,14 +29,14 @@
                 </core:NativeEntry.Behaviors>
             </core:NativeEntry>
 
-            <Button Text="Sort Asc" Grid.Row="1" Grid.Column="0" Margin="15,0,0,50">
+            <Button Text="Sort Asc" Grid.Row="1" Grid.Column="0" Margin="15,0,0,50" IsVisible="{Binding IsBusy, Converter={StaticResource negateBool}}">
                 <Button.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding BindingContext.SortAscCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"/>
+                    <TapGestureRecognizer Command="{Binding SortAscCommand}"/>
                 </Button.GestureRecognizers>
             </Button>
-            <Button Text="Sort Desc" Grid.Row="1" Grid.Column="1" Margin="15,0,15,50">
+            <Button Text="Sort Desc" Grid.Row="1" Grid.Column="1" Margin="15,0,15,50" IsVisible="{Binding IsBusy, Converter={StaticResource negateBool}}">
                 <Button.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding BindingContext.SortDescCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"/>
+                    <TapGestureRecognizer Command="{Binding SortDescCommand}"/>
                 </Button.GestureRecognizers>
             </Button>
 
