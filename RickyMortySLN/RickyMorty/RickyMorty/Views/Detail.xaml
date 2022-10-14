@@ -6,13 +6,18 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <core:LocationConverter x:Key="LocationToDimensionConverter"/>
+            <core:NegationConverter x:Key="negateBoolean"/>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
-            <Label Text="{Binding Location, Converter={StaticResource LocationToDimensionConverter}}" FontAttributes="Bold" Margin="100, 50, 0, 20"/>
+            <Label Text="Loading" IsVisible="{Binding IsBusy}"/>
+            
+            <Label Text="{Binding Location, Converter={StaticResource LocationToDimensionConverter}}" IsVisible="{Binding IsBusy, Converter={StaticResource negateBoolean}}" FontAttributes="Bold" Margin="100, 50, 0, 20"/>
 
-            <CollectionView ItemsSource="{Binding Characters}" Margin="100,0,0,0">
+            <Label Text="Nobody lives here" IsVisible="{Binding NobodyLivesHere}" Margin="100, 50, 0, 0"/>
+
+            <CollectionView ItemsSource="{Binding Characters}" IsVisible="{Binding IsBusy, Converter={StaticResource negateBoolean}}" Margin="100,0,0,0">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid>

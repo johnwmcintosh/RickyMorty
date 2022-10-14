@@ -14,6 +14,9 @@ namespace RickyMorty.ViewModels
         private Location location;
         public Location Location { get => location; private set { location = value; RaisePropertyChanged(); } }
 
+        private bool nobodyLivesHere = false;
+        public bool NobodyLivesHere { get => nobodyLivesHere; private set { nobodyLivesHere = value; RaisePropertyChanged(); } }
+
         public DetailViewModel(INavigation navigation)
         {
             Navigation = navigation;
@@ -24,6 +27,8 @@ namespace RickyMorty.ViewModels
 
         public async Task Init(Location location)
         {
+            IsBusy = true;
+
             string Ids = string.Empty;
 
             Characters = new ObservableCollection<Character>();
@@ -37,10 +42,18 @@ namespace RickyMorty.ViewModels
                 Ids += $"{id},";
             }
 
-            foreach(var character in await ApiService.GetCharacterGroup(Ids))
+            if (Ids != string.Empty)
             {
-                Characters.Add(character);
+                NobodyLivesHere = false;
+                foreach (var character in await ApiService.GetCharacterGroup(Ids))
+                {
+                    Characters.Add(character);
+                }
             }
+            else
+                NobodyLivesHere = true;
+
+            IsBusy = false;
         }
 
     }
