@@ -1,1 +1,1 @@
-# RickyMorty Expore the universe of Rick & Morty
+# Explore the universe of Rick & Morty
